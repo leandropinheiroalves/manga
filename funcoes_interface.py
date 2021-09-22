@@ -25,9 +25,19 @@ def rodape():
     
 
 def opcoes_conta():
-    separacao('opções de conta')
+    separacao('opções de conta', 'O que gostaria de fazer? ')
+    print('''    [ 1 ] → Fazer login
+    [ 2 ] → Criar nova conta
+    [ 3 ] → Redefinir minha senha
+    [ 4 ] → Mudar avatar
+    [ 5 ] → Voltar para tela inicial
+    [ 6 ] → Encerrar o Programa
+    [999] → EXCLUIR MINHA CONTA PERMANENTEMENTE
+    ''')
+    escolha = int(input('Digite o número da opção escolhida: '))
 
-    pass
+    while True:
+    
 
 def inicial():
     separacao('Bem vindo ao leitor de mangás')
@@ -60,6 +70,5 @@ def inicial():
         rodape()
 
     
-
 if __name__ == '__main__':
-   inicial()
+   opcoes_conta()
