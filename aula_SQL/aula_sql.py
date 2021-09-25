@@ -18,8 +18,7 @@ def buscar(men):
 
 
 # Criando tabela TB_FUNC no banco de dados
-def criar_tabela():
-    cursor.execute('''CREATE TABLE TB_FUNC
+tabela1 = '''CREATE TABLE TB_FUNC
         (id integer NOT NULL,
         estado_civil character varying(30),
         grau_instrucao character varying(30),
@@ -27,7 +26,9 @@ def criar_tabela():
         salario_hora double precision,
         idade integer,
         reg_procedencia character varying(30),
-        PRIMARY KEY (id))''')
+        PRIMARY KEY (id))'''
+def criar_tabela(men):
+    cursor.execute(men)
     print('Banco criado com sucesso!')
 
 ########## SELECT ##########
@@ -92,9 +93,92 @@ def deletar():
     db.commit()
 
 # Usando INSERT - insere valores na tabela
-def inserir():
-    cursor.execute('''INSERT INTO TB_FUNC
+valor_a_ser_adicionaro = '''INSERT INTO TB_FUNC
     (ID, estado_civil, grau_instrucao, numero_filhos, 
     salario_hora, idade, reg_procedencia) 
-    VALUES (38, "casado", "ensino medio", 3, 4.50, 30, "capital"''')
-    
+    VALUES (38, "casado", "ensino medio", 3, 4.50, 30, "capital"'''
+
+def inserir(men):
+    cursor.execute(men)
+    print('Dados inseridos na tabela com sucesso!')
+    db.commit()
+
+# Usando ORDER BY - organiza os valores da tabela, por padrão ordena de forma crescente(ASC)
+ordenados = 'SELECT * FROM TB_FUNC ORDER BY salario_hora DESC, reg_procedencia DESC'
+
+# Usando as funções:
+# MIN   : mostra o valor minimo
+# MAX   : mostra o valor maximo
+# AVG   : mostra a média
+# COUNT : total de registros
+# SUM   : soma os registros
+minimo = 'SELECT MIN(salario_hora) FROM TB_FUNC'
+maximo = 'SELECT MAX(salario_hora) FROM TB_FUNC'
+media = 'SELECT AVG(salario_hora) FROM TB_FUNC'
+total_registros = 'SELECT COUNT(*) FROM TB_FUNC'
+soma = 'SELECT SUM(salario_hora) FROM TB_FUNC'
+
+# Usando GROUP BY - agrupa os valores conforme um parametro
+media_procedencia = 'SELECT ROUND(AVG(salario_hora)), reg_procedencia FROM TB_FUNC GROUP BY reg_procedencia'
+
+# Exercício 1
+# /* Crie uma instrução SQL que retorne a média de idade, número de filhos e grau de instrução dos funcionários cujo salario_hora estiver acima da média de todos os funcionário.
+# 
+# Retorne os dados somente de funcionários da capital e estado civil casado, com ordem decrescente da média de idade. */
+exercicio1 = '''SELECT ROUND(AVG(idade)), numero_filhos, grau_instrucao 
+FROM TB_FUNC
+WHERE salario_hora > (SELECT AVG(salario_hora) FROM TB_FUNC)
+    AND estado_civil = 'casado'
+    AND reg_procedencia = 'capital'
+GROUP BY numero_filhos, grau_instrucao
+ORDER BY ROUND(AVG(idade)) DESC
+'''
+
+# Exercício 2
+# /* Retorne todos os registros dos funcionários com 2 filhos. */
+exercicio2 = 'SELECT * FROM TB_FUNC WHERE cast(numero_filhos as INTEGER) = 2'
+
+# Exercício 3
+# /* Juntar dados de tabelas diferentes, Retorne a média de salário por estado */
+tabela2 = '''CREATE TABLE TB_ENDERECO
+(
+    "id_end" integer NOT NULL,
+    "rua" character varying(30),
+    "numero" character varying(30),
+    "bairro" character varying(30),
+    "cep" character varying(10),
+    "estado" character varying(30),
+    "pais" character varying(30),
+    "id_func" integer,
+    PRIMARY KEY ("id_end")
+)'''
+
+dados1 = '''INSERT INTO TB_ENDERECO(
+	"id_end", "rua", "numero", "bairro", "cep", "estado", "pais", "id_func")
+	VALUES (1001, 'Jaguar', 40, 'Tijuca', '24239-900', 'Rio de Janeiro', 'Brasil', 2)'''
+
+dados2 = '''INSERT INTO TB_ENDERECO(
+	"id_end", "rua", "numero", "bairro", "cep", "estado", "pais", "id_func")
+	VALUES (1002, 'Mercedes Benz', 140, 'Centro', '12098-900', 'Minas Gerais', 'Brasil', 6)'''
+
+dados3 = '''INSERT INTO TB_ENDERECO(
+	"id_end", "rua", "numero", "bairro", "cep", "estado", "pais", "id_func")
+	VALUES (1003, 'BMW', 20, 'Tijuca', '23232-900', 'Rio de Janeiro', 'Brasil', 3)'''
+	
+dados4 = '''INSERT INTO TB_ENDERECO(
+	"id_end", "rua", "numero", "bairro", "cep", "estado", "pais", "id_func")
+	VALUES (1004, 'Ferrari', 32, 'Centro', '99872-900', 'Minas Gerais', 'Brasil', 11)'''
+
+dados5 = '''INSERT INTO TB_ENDERECO(
+	"id_end", "rua", "numero", "bairro", "cep", "estado", "pais", "id_func")
+	VALUES (1005, 'McLaren', 45, 'Centro', '43982-900', 'Minas Gerais', 'Brasil', 17)'''
+
+# Exercício 3
+# /* Retorne a média de salário por estado */
+
+exercicio3 = '''SELECT ROUND(AVG(f.salario_hora)), e.estado
+FROM TB_FUNC f, TB_ENDERECO e
+WHERE f.id = e.id_func
+GROUP BY e.estado
+'''
+buscar(exercicio3)
