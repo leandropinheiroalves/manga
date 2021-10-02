@@ -8,7 +8,7 @@ Dessa forma os comandos funcionam das duas maneiras, no entanto, algumas empresa
 import sqlite3
 
 # Conectando com o banco de dados teste.db e criando cursor
-db = sqlite3.connect('teste.db')
+db = sqlite3.connect('aula_SQL/teste.db')
 cursor = db.cursor()
     
 
@@ -181,4 +181,3 @@ FROM TB_FUNC f, TB_ENDERECO e
 WHERE f.id = e.id_func
 GROUP BY e.estado
 '''
-buscar(exercicio3)
