@@ -6,9 +6,9 @@ Buscador de mangás e gerenciador de mangás lidos
   - [X] Alterar nome de usuario
   - [X] Alterar senha
   - [X] Excluir conta
-- [ ] Funções Mangá
-  - [ ] Pesquisar Mangá
-  - [ ] Adicionar Mangá à Conta
-  - [ ] Remover Mangá da Conta
-  - [ ] Salvar capítulo atual do Mangá
+- [X] Funções Mangá
+  - [X] Pesquisar Mangá
+  - [X] Adicionar Mangá à Conta
+  - [X] Remover Mangá da Conta
+
   
